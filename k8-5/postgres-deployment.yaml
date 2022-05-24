@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replices: 1
+  selector:
+    matchlabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+  spec:
+    volumes:
+    - name: postgres-storage
+    PresistentVolumeClaim:
+      ClaimName: database-Presistent-Volume-Claim
+    container:
+    - name: postgres
+      images: postgres:12-alpine
+      ports:
+        -  containerPort: 5432
+      volumeMounts:
+      - name: postgres-storage
+        mountPath: /var/lib/postgresql/data
+        subPath: postgres
+      env:
+        - name: POSTGRES_USER
+          value: hello_flask
+        - name: POSTGRES_DB
+          value: hello_flask
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgpassword
+              key: PGPASSWORD
+    

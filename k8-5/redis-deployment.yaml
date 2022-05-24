@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+
+spec:
+  replicas: 1
+  selector: 
+    matchlabels:
+      component: radis
+  template:
+    metadata:
+      labels:
+        component: radis
+    spec:
+      container: 
+      - name: redis
+        images: redis:6.0.8
+        ports:
+        - containerPorts: 6379
