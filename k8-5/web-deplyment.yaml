@@ -11,7 +11,7 @@ metadata:
     spec:
       container:
       - name: wishlist-app-container
-      images: <<images>>
+      images: tharun13055/user-wishlist-k8s:v1
       ports:
       - containerPort: 80
       env:
