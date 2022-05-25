@@ -2,19 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-deployment
-  spec:
+spec:
   replicas: 1
+  selector:
+    matchLabels:
+      component: wishlist-app
   template:
     metadata:
       labels: 
         component: wishlist-app
     spec:
-      container:
+      containers:
       - name: wishlist-app-container
-      images: tharun13055/user-wishlist-k8s:v1
-      ports:
-      - containerPort: 80
-      env:
+        image: tharun13055/user-wishlist-k8s:v1
+        ports:
+        - containerPort: 80
+        env:
         - name: RADIS_HOST
           value: radis-service
         - name: RADIS_PORT
@@ -27,12 +30,9 @@ metadata:
           value: hello_flask_db
         - name: PASSWORD
           valueFrom:
-            secretKeyRef:
+             secretKeyRef:
               name: pgpassword
               key: PGPASSWORD
-  selector:
-      matchlabels:
-        component: wishlist-app
 
 
       
