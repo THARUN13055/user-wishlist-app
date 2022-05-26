@@ -18,9 +18,9 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: RADIS_HOST
-          value: radis-service
-        - name: RADIS_PORT
+        - name: REDIS_HOST
+          value: redis-service
+        - name: REDIS_PORT
           value: '6379'
         - name: POSTGRES_USER
           value: hello_flask
@@ -28,11 +28,11 @@ spec:
           value: '5432'
         - name: POSTGRES_DB
           value: hello_flask_db
-        - name: PASSWORD
+        - name: POSTGRES_PASSWORD
           valueFrom:
              secretKeyRef:
-              name: pgpassword
-              key: PGPASSWORD
+              name: my-secret
+              key: password
 
 
       

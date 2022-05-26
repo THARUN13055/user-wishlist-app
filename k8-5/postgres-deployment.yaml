@@ -11,28 +11,26 @@ spec:
       labels:
         component: postgres
     spec:
-    volumes:
-    - name: postgres-storage
-      PersistentVolumeClaim:
-      ClaimName: database-presistent-volume-claim
-    containers:
-    - name: postgres
-      image: postgres:12-alpine
-      ports:
-      -  containerPort: 5432
-      volumeMounts:
+      volumes:
       - name: postgres-storage
-        mountPath: /var/lib/postgresql/data
-        subPath: postgres
-      env:
-      - name: POSTGRES_USER
-        value: hello_flask
-      - name: POSTGRES_DB
-        value: hello_flask
-      - name: POSTGRES_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: pgpassword
-            key: PGPASSWORD
-volumes:
-postgres-storage:  
+        persistentVolumeClaim:
+          claimName: database-presistent-volume-claim
+      containers:
+      - name: postgres
+        image: postgres:12-alpine
+        ports:
+        -  containerPort: 5432
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        env:
+        - name: POSTGRES_USER
+          value: hello_flask
+        - name: POSTGRES_DB
+          value: hello_flask_db
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: password
